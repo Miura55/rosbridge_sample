@@ -5,5 +5,6 @@ services:
     build: .
     volumes:
       - .:/catkin_ws/src
+    entrypoint: /bin/bash -c "source /catkin_ws/devel/setup.bash && roslaunch rosbridge_server rosbridge_websocket.launch"
     ports:
       - "9090:9090"
