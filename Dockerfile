@@ -27,5 +27,10 @@ RUN apt install -y python3-catkin-tools libcpprest-dev && \
 
 RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
 
+RUN apt install -y ros-noetic-usb-cam ros-noetic-image-view
+
+RUN echo 'export QT_X11_NO_MITSHM=1' >> ~/.bashrc && \
+    source ~/.bashrc
+
 EXPOSE 9090
 ENTRYPOINT [ "bash", "-c", "source /opt/ros/noetic/setup.bash && roslaunch rosbridge_server rosbridge_websocket.launch" ]
