@@ -1,12 +1,11 @@
-FROM ros:melodic
+FROM ros:noetic
 
 # Install rosbridge
 RUN apt-get update && apt-get -y upgrade && \
-    apt-get install -y ros-melodic-rosbridge-suite
+    apt-get install -y ros-noetic-rosbridge-suite
 
 # install python3 pip3
-RUN apt update && apt install -y python3-pip && \
-    ln /usr/bin/pip3 /usr/bin/pip
+RUN apt update && apt install -y python3-pip
 
 # install python3 dependencies
 WORKDIR /catkin_ws/src
@@ -17,9 +16,9 @@ RUN pip3 install -r requirements.txt
 RUN mkdir -p /catkin_ws/src
 COPY ./dummy_sensor /catkin_ws/src/dummy_sensor
 SHELL ["/bin/bash", "-c"]
-RUN apt install -y python-catkin-tools libcpprest-dev && \
+RUN apt install -y python3-catkin-tools libcpprest-dev && \
     cd /catkin_ws && \
-    source /opt/ros/melodic/setup.bash && \
+    source /opt/ros/noetic/setup.bash && \
     rosdep update && \
     catkin init && \
     rosdep install -i --from-paths ./ && \
@@ -29,4 +28,4 @@ RUN apt install -y python-catkin-tools libcpprest-dev && \
 RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
 
 EXPOSE 9090
-CMD [ "bash", "-c", "source /opt/ros/melodic/setup.bash && roslaunch rosbridge_server rosbridge_websocket.launch" ]
+CMD [ "bash", "-c", "source /opt/ros/noetic/setup.bash && roslaunch rosbridge_server rosbridge_websocket.launch" ]
