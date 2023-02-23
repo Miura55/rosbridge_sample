@@ -28,4 +28,4 @@ RUN apt install -y python3-catkin-tools libcpprest-dev && \
 RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
 
 EXPOSE 9090
-CMD [ "bash", "-c", "source /opt/ros/noetic/setup.bash && roslaunch rosbridge_server rosbridge_websocket.launch" ]
+ENTRYPOINT [ "bash", "-c", "source /opt/ros/noetic/setup.bash && roslaunch rosbridge_server rosbridge_websocket.launch" ]

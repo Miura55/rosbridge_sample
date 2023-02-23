@@ -4,7 +4,7 @@ services:
   ros:
     build: .
     volumes:
-      - .:/catkin_ws/src
+      - ./dummy_sensor:/catkin_ws/src/dummy_sensor
     entrypoint: /bin/bash -c "source /catkin_ws/devel/setup.bash && roslaunch rosbridge_server rosbridge_websocket.launch"
     ports:
       - "9090:9090"
