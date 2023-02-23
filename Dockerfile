@@ -27,6 +27,7 @@ RUN apt install -y python3-catkin-tools libcpprest-dev && \
 
 RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
 
+# Install ROS image packages
 RUN apt install -y ros-noetic-usb-cam ros-noetic-image-view
 
 RUN echo 'export QT_X11_NO_MITSHM=1' >> ~/.bashrc && \
