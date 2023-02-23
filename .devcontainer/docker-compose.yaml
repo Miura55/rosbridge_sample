@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  web:
+    build: .
+    container_name: rosbridge_web
+    volumes:
+      - ..:/workspace:cached
+    ports:
+      - "5000:5000"
+    depends_on:
+      - ros
+    command: sleep infinity
+  ros:
+    build: ..
+    container_name: rosbridge_server
+    volumes:
+      - ../dummy_sensor:/catkin_ws/src/dummy_sensor
+    ports:
+      - "9090:9090"
