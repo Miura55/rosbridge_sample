@@ -11,8 +11,8 @@ export const Camera = () => {
   }, []);
 
   return (
-    <div>
+    <>
       {imageData && <img src={imageData} alt="camera" />}
-    </div>
+    </>
   );
 };
