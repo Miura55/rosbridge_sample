@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { imageTopic } from '../../services/subscriber';
 
@@ -11,8 +12,8 @@ export const Camera = () => {
   }, []);
 
   return (
-    <>
-      {imageData && <img src={imageData} alt="camera" />}
-    </>
+    <Box sx={{minWidth: 100}}>
+      <img src={imageData} alt="camera" />
+    </Box>
   );
 };

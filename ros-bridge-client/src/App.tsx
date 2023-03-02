@@ -1,4 +1,4 @@
-import { Container, CssBaseline, ThemeProvider } from '@mui/material'
+import { Container, CssBaseline, Grid, ThemeProvider } from '@mui/material'
 import { theme } from './theme'
 import Header from './components/header'
 import { Camera } from './components/cameraView'
@@ -9,9 +9,11 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <Container maxWidth='md'>
-        <Camera />
-      </Container>
+      <Grid container alignItems='center' justifyContent='center'>
+        <Grid item xs={8}>
+          <Camera />
+        </Grid>
+      </Grid>
     </ThemeProvider>
   )
 }
