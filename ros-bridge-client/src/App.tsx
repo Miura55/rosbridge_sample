@@ -1,4 +1,4 @@
-import { Container, CssBaseline, Grid, ThemeProvider } from '@mui/material'
+import { CssBaseline, Grid, ThemeProvider } from '@mui/material'
 import { theme } from './theme'
 import Header from './components/header'
 import { Camera } from './components/cameraView'

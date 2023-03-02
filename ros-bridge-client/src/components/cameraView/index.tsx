@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Card, CardHeader, CardMedia } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { imageTopic } from '../../services/subscriber';
 
@@ -12,8 +12,17 @@ export const Camera = () => {
   }, []);
 
   return (
-    <Box sx={{minWidth: 100}}>
-      <img src={imageData} alt="camera" />
-    </Box>
+    <Card sx={{minWidth: 345}}>
+      <CardHeader
+        title="Camera"
+        subheader="camera/compressed"
+      />
+      <CardMedia
+        component="img"
+        width={60}
+        image={imageData}
+        alt="Camera"
+      />
+    </Card>
   );
 };
