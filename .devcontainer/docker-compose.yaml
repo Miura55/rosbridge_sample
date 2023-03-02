@@ -14,12 +14,7 @@ services:
   ros:
     build: ..
     container_name: rosbridge_server
-    environment:
-      - DISPLAY=${DISPLAY}
-    devices:
-      - /dev/video0:/dev/video0:mwr
     volumes:
       - ../dummy_sensor:/catkin_ws/src/dummy_sensor
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     ports:
       - "9090:9090"
