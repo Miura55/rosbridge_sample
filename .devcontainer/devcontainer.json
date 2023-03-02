@@ -52,6 +52,7 @@
     },
     // "postCreateCommand": "cd todo-app && yarn",
     "forwardPorts": [
+        3000,
         9090
     ]
 }
