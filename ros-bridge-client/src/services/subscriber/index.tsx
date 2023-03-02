@@ -6,6 +6,6 @@ const ros = new ROSLIB.Ros({
 
 export const imageTopic = new ROSLIB.Topic({
   ros: ros,
-  name: '/head_camera/image_raw/compressed',
+  name: 'camera/compressed',
   messageType: 'sensor_msgs/CompressedImage',
 });

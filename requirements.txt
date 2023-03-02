@@ -1,2 +1,4 @@
 rosdep
 rospkg
+opencv-python
+opencv-contrib-python
