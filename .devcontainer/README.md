@@ -12,5 +12,5 @@ wget https://storage.googleapis.com/cruise-webviz-public/demo.bag
 ```
 2. Run node
 ```bash
- docker exec -it rosbridge_server bash -c "source /catkin_ws/devel/setup.bash && roslaunch dummy_sensor play_demo.launch"
+docker exec -it rosbridge_server bash -c "source /catkin_ws/devel/setup.bash && roslaunch dummy_sensor play_demo.launch"
 ```
