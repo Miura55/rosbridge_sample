@@ -2,7 +2,8 @@
 <launch>
   <arg name="data_file" default="demo.bag" />
   <arg name="view" default="false" />
-  
+
+  <node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2_web_republisher" />
   <node name="demo_player" pkg="rosbag" type="play" output="screen" args="-l $(find dummy_sensor)/data/$(arg data_file)" />
   <node name="image_republish" pkg="dummy_sensor" type="image_compress.py" />
   <group if="$(arg view)">
