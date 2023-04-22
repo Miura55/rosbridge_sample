@@ -12,9 +12,20 @@ WORKDIR /catkin_ws/src
 COPY ./requirements.txt /catkin_ws/src
 RUN pip3 install -r requirements.txt
 
-# copy ros package
+# Install ROS image packages
+RUN apt install -y \
+    ros-noetic-usb-cam ros-noetic-image-view \
+    ros-noetic-tf\
+    ros-noetic-image-transport\
+    ros-noetic-image-transport-plugins\
+    ros-noetic-cv-bridge
+
+# Copy ros packages
 RUN mkdir -p /catkin_ws/src
 COPY ./dummy_sensor /catkin_ws/src/dummy_sensor
+COPY ./tf2_web_republisher /catkin_ws/src/tf2_web_republisher
+
+# Build ros packages
 SHELL ["/bin/bash", "-c"]
 RUN apt install -y python3-catkin-tools libcpprest-dev && \
     cd /catkin_ws && \
@@ -26,13 +37,6 @@ RUN apt install -y python3-catkin-tools libcpprest-dev && \
     source /catkin_ws/devel/setup.bash
 
 RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
-
-# Install ROS image packages
-RUN apt install -y \
-    ros-noetic-usb-cam ros-noetic-image-view \
-    ros-noetic-image-transport\
-    ros-noetic-image-transport-plugins\
-    ros-noetic-cv-bridge
 
 RUN echo 'export QT_X11_NO_MITSHM=1' >> ~/.bashrc && \
     source ~/.bashrc
