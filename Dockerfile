@@ -1,5 +1,19 @@
 FROM ros:noetic
 
+ENV DEBIAN_FRONTEND=noninteractive
+
+ARG USERNAME=guest
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+# Create the user
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && apt-get update \
+    && apt-get install -y sudo \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
 # Install rosbridge
 RUN apt-get update && apt-get -y upgrade && \
     apt-get install -y ros-noetic-rosbridge-suite
@@ -14,11 +28,16 @@ RUN pip3 install -r requirements.txt
 
 # Install ROS image packages
 RUN apt install -y \
-    ros-noetic-usb-cam ros-noetic-image-view \
+    libpcap-dev\
+    ros-noetic-usb-cam\
+    ros-noetic-image-view\
     ros-noetic-tf\
     ros-noetic-image-transport\
     ros-noetic-image-transport-plugins\
-    ros-noetic-cv-bridge
+    ros-noetic-cv-bridge\
+    ros-noetic-pcl-conversions\
+    ros-noetic-pcl-ros\
+    ros-noetic-controller-manager
 
 # Copy ros packages
 RUN mkdir -p /catkin_ws/src
@@ -36,6 +55,8 @@ RUN apt install -y python3-catkin-tools libcpprest-dev && \
     catkin build && \
     source /catkin_ws/devel/setup.bash
 
+USER $USERNAME
+WORKDIR /home/$USERNAME
 RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
 
 RUN echo 'export QT_X11_NO_MITSHM=1' >> ~/.bashrc && \
