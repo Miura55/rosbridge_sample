@@ -1,4 +1,0 @@
-[submodule "dummy_sensor/src/rosbridge_sample"]
-	path = dummy_sensor/src/rosbridge_sample
-	url = https://github.com/RobotWebTools/tf2_web_republisher.git
-  ignore = dirty
