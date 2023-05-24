@@ -3,16 +3,18 @@ FROM ros:noetic
 ENV DEBIAN_FRONTEND=noninteractive
 
 ARG USERNAME=guest
-ARG USER_UID=1000
-ARG USER_GID=1000
 
-# Create the user
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && apt-get update \
-    && apt-get install -y sudo \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
+RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+RUN apt update && \
+    apt install -y curl gcc wget git
+
+RUN useradd -m -d /home/$USERNAME -s /bin/bash $USERNAME
+
+# Install Node.js & yarn
+RUN apt-get update && apt-get install -y curl && \
+    curl -s https://deb.nodesource.com/setup_16.x | sudo bash && \
+    apt-get update && apt-get install -y nodejs && \
+    npm install -g yarn
 
 # Install rosbridge
 RUN apt-get update && apt-get -y upgrade && \
@@ -28,9 +30,7 @@ RUN pip3 install -r requirements.txt
 
 # Install ROS image packages
 RUN apt install -y \
-    libpcap-dev\
-    ros-noetic-usb-cam\
-    ros-noetic-image-view\
+    libpcap-dev \
     ros-noetic-tf\
     ros-noetic-image-transport\
     ros-noetic-image-transport-plugins\
@@ -55,19 +55,12 @@ RUN apt install -y python3-catkin-tools libcpprest-dev && \
     catkin build && \
     source /catkin_ws/devel/setup.bash
 
-# Install Node.js & yarn
-RUN apt-get update && apt-get install -y curl && \
-    curl -s https://deb.nodesource.com/setup_16.x | sudo bash && \
-    apt-get update && apt-get install -y nodejs && \
-    npm install -g yarn
-
-USER $USERNAME
 WORKDIR /home/$USERNAME
-RUN echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
+RUN echo "source /catkin_ws/devel/setup.bash" >> /home/$USERNAME/.bashrc
 
-RUN echo 'export QT_X11_NO_MITSHM=1' >> ~/.bashrc && \
-    source ~/.bashrc
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-EXPOSE 9090
-ENTRYPOINT [ "bash", "-c", "source /opt/ros/noetic/setup.bash && roslaunch rosbridge_server rosbridge_websocket.launch" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
+
 CMD [ "bash" ]
